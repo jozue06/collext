@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Auth</title>
+    </head>
+    <body>
+        <main>
+
+            <div id="oauth"></div>
+
+            <hr>
+
+   
+        </main>
+
+        <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+       
+
+        <script>
+          let googleURL = "https://accounts.google.com/o/oauth2/v2/auth";
+          let options = {
+            client_id:'910868958603-nq90rpf6943b5s04jaggao8brvn3g5m3.apps.googleusercontent.com',
+            redirect_uri: 'http://localhost:3330/oauth',
+            scope: 'email openid profile',
+            prompt: 'consent',
+            response_type: 'code'
+          }
+          let QueryString = Object.keys(options).map( (key,i) => {
+            return `${key}=` + encodeURIComponent(options[key]);
+          }).join("&");
+          let authURL = `${googleURL}?${QueryString}`;
+          $('#oauth').append(`<a href="${authURL}">Login With Google</a>`);
+        </script>
+
+
+    </body>
+</html>
