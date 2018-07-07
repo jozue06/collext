@@ -2,10 +2,10 @@ let express = require('express')
   , router = express.Router()
   , notification = require('../middleware/notification');
 let admins = require('../config/administrators.json');
-let auth = require('../auth/middleware.js');
+// let auth = require('../auth/middleware.js');
 
 // GET: /notifications/new
-router.get('/new', auth, function(req, res, next) {
+router.get('/new', function(req, res, next) {
   res.render('notifications', {});
 });
 
