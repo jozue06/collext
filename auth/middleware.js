@@ -63,7 +63,7 @@ module.exports = (req, res, next) => {
     if(cookie){
       console.log('check there is cookie--->2 cookie', cookie);
       authorize(cookie);
-      authenticate(cookie);
+      // authenticate(cookie);
     }
 
     else {
