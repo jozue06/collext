@@ -7,6 +7,7 @@ let session = require('express-session');
 let flash = require('connect-flash');
 // let morgan = require('morgan');
 // let csurf = require('csurf');
+let cookieParser = require('cookie-parser');
 let authRouter = require( './auth/router');
 
 let config = require('./config');
@@ -32,9 +33,12 @@ app.set('view engine', 'pug');
 
 
 // Parse incoming form-encoded HTTP bodies
+app.use(cookieParser());
+
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
+
 
 // Create and manage HTTP sessions for all requests
 app.use(session({
