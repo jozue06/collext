@@ -5,7 +5,7 @@ let User = require('./model.js');
 module.exports = (req, res, next) => {
 
   let authorize = (token) => {
-    console.log('check the token--->');
+    console.log('check the token--->', token);
     // Given a token, check with the User model to see if its valid
     User.authorize(token)
       .then(user => {
@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
   };
 
   let authenticate = (auth) => {
-    console.log('check the token--->3', auth);
+    console.log('check the token--->3 auth', auth);
     // Validate the user using the model's authenticate method
     User.authenticate(auth)
     // We will always get back a "user" from mongo ... although it might be real and it might be null
@@ -53,34 +53,25 @@ module.exports = (req, res, next) => {
 
   // Try to authenticate -- parse out the headers and do some work!
   try {
-    let auth = {};
-    let authHeader = req.headers.authorization;
-    console.log('check the token--->3', authHeader);
-    if(!authHeader) {
-      return getAuth();
+    let cookie = req.cookies.auth;
+    console.log('check the cookie train--->1 cookie', cookie);
+
+    if(!cookie){
+      console.log('check there is NOT cookie--->2 cookie', cookie);
+      
+    }
+    if(cookie){
+      console.log('check there is cookie--->2 cookie', cookie);
+      authorize(cookie);
+      authenticate(cookie);
     }
 
-    // BASIC Auth
-    if(authHeader.match(/basic/i)) {
-      // authHeader will have a base64 encoded auth string in it
-      //   i.e. Basic ZnJlZDpzYW1wbGU=
+    else {
+      getAuth();
 
-      // Break that apart ...
-      let base64Header = authHeader.replace(/Basic\s+/i, ''); // ZnJlZDpzYW1wbGU=
-      let base64Buffer = Buffer.from(base64Header,'base64'); // <Buffer 01 02...>
-      let bufferString = base64Buffer.toString(); // john:mysecret
-      let [username,password] = bufferString.split(':');  // variables username="john" and password="mysecret"
-      auth = {username,password};  // {username:"john", password:"mysecret"}
+    }
+    
 
-      // Start the authentication train
-      authenticate(auth);
-   
-    }
-    else if(authHeader.match(/bearer/i)) {
-      // i.e. Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI
-      let token = authHeader.replace(/bearer\s+/i, '');
-      authorize(token);
-    }
   } catch(e) {
     next(e);
   }

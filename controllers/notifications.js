@@ -2,10 +2,11 @@ let express = require('express')
   , router = express.Router()
   , notification = require('../middleware/notification');
 let admins = require('../config/administrators.json');
-// let auth = require('../auth/middleware.js');
-
+let auth = require('../auth/middleware.js');
+// console.log('in the git check');
 // GET: /notifications/new
-router.get('/new', function(req, res, next) {
+router.get('/new', auth, (req, res, next)=> {
+  console.log('in the git check');
   res.render('notifications', {});
 });
 
