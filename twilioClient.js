@@ -13,6 +13,6 @@ module.exports.sendSms = function(to, message) {
       console.log('Administrator notified');
     }).catch(function(err) {
       console.error('Could not notify administrator');
-      console.error(err);
+      console.error('error', err);
     });
 };
