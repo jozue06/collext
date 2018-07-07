@@ -8,7 +8,7 @@
 
 * When you log in, you will be shown a simple UI. Just type what you want to say to me, and hit send. My account will be charged, and you will have send me an anonymous collect text. If you would like, please leave your name or whatever other info you want. 
 
-<sub>(_I will have no way to respond to you as its behind the authentiction._)</sub>
+<sub>(_I will have no way to respond to you as its behind the authentication._)</sub>
 
 ***
 
