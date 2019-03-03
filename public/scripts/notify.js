@@ -2,14 +2,14 @@ $(document).ready(function () {
   Notify.init();
 });
 
-var Notify = {
+let Notify = {
   init: function () {
     $('#reset').click($.proxy(function(e) {
       e.preventDefault();
-
+      
       this.reset();
     }, this));
-
+    
     $('form').submit($.proxy(function(e) {
       if (this.isEmptyMessage()) {
         e.preventDefault();
@@ -29,9 +29,7 @@ var Notify = {
 
   reset: function () {
     $('textarea[name=message]').val('');
-    $('select[name=movie]').prop('selectedIndex', 0);
-    $('#validation_message').text('');
-    $('.alert').hide();
-  }
+    $('#validation_message').text('');    
+  },
 };
 

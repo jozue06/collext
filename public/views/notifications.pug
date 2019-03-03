@@ -2,7 +2,6 @@ extends layout
 
 block content
   h3.title.spaced COLLECT TEXT
-
   p.spaced
     | Let me know how you are! I must know! (And I'll even pay for it!)
 
@@ -10,10 +9,13 @@ block content
     .col-md-12
       form.form-horizontal(action='/notifications', method='POST')
         .form-group
-          label.col-md-2.control-label Message
           .col-md-10
+            label.col-md-0.control-label To
+            input(type="tel").form-control(name='to')
+            label.col-md-0.control-label Message
             textarea.form-control(name='message')
             span.text-primary#validation_message
+
 
        
             button.btn.btn-primary

@@ -6,7 +6,6 @@ let oauth = require('./lib/oauth.js');
 
 
 authRouter.get('/oauth', (req, res, next) => {
-  console.log('from googlesss -->');
   let URL = process.env.CLIENT_URL;
 
   // Offload the oauth handshaking process to a module designed
