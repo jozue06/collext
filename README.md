@@ -4,7 +4,7 @@ description: >-
   and send me an anonymous collect text.
 ---
 
-# N O T I F Y \| M E
+# C O L L E X T \| M E
 
 {% tabs %}
 {% tab title="Intro" %}

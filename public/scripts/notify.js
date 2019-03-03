@@ -29,9 +29,7 @@ let Notify = {
 
   reset: function () {
     $('textarea[name=message]').val('');
-    $('select[name=movie]').prop('selectedIndex', 0);
-    $('#validation_message').text('');
-    $('.alert').hide();
-  }
+    $('#validation_message').text('');    
+  },
 };
 

@@ -1,9 +1,12 @@
 'use strict';
 let config = require('../config');
+let phonecleaner = require('./phonecleaner');
 
 module.exports.sendSms = function(to, message) {
-  console.log("stuff", to)
+  to = phonecleaner(to);
+
   let client = require('twilio')(config.accountSid, config.authToken);
+  
   return client.api.messages
     .create({
       body: message,

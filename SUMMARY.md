@@ -1,4 +1,4 @@
 # Table of contents
 
-* [N O T I F Y \| M E](README.md)
+* [C O L L E X T \| M E](README.md)
 

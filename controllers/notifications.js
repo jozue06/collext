@@ -1,7 +1,6 @@
 let express = require('express')
   , router = express.Router()
   , notification = require('../middleware/notification');
-let admins = require('../config/administrators.json');
 let auth = require('../auth/middleware.js');
 // GET: /notifications/new
 router.get('/new', auth, (req, res, next)=> {
@@ -19,10 +18,8 @@ router.post('/', function(req, res, next) {
   else {
     let message = req.body.message;
     let to = req.body.to;
-  
-    console.log("here")
+
     notification.sendSms(to, message);
-  
     res.redirect(302, '/notifications/new');
   }
 
