@@ -5,7 +5,6 @@ let User = require('./model.js');
 module.exports = (req, res, next) => {
 
   let authorize = (token) => {
-    console.log('check the token--->', token);
     // Given a token, check with the User model to see if its valid
     User.authorize(token)
       .then(user => {
@@ -22,7 +21,6 @@ module.exports = (req, res, next) => {
   };
 
   let authenticate = (auth) => {
-    console.log('check the token--->3 auth', auth);
     // Validate the user using the model's authenticate method
     User.authenticate(auth)
     // We will always get back a "user" from mongo ... although it might be real and it might be null
@@ -54,14 +52,11 @@ module.exports = (req, res, next) => {
   // Try to authenticate -- parse out the headers and do some work!
   try {
     let cookie = req.cookies.auth;
-    console.log('check the cookie train--->1 cookie', cookie);
 
     if(!cookie){
-      console.log('check there is NOT cookie--->2 cookie', cookie);
       
     }
     if(cookie){
-      console.log('check there is cookie--->2 cookie', cookie);
       authorize(cookie);
       // authenticate(cookie);
     }

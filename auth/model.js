@@ -33,7 +33,6 @@ userSchema.statics.createFromOAuth = function(incoming) {
   return this.findOne({email:incoming.email})
     .then(user => {
       if ( ! user ) { throw new Error ('User Not Found'); }
-      console.log('Welcome Back', user.username);
       return user;
     })
     .catch( error => {

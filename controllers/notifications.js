@@ -3,10 +3,8 @@ let express = require('express')
   , notification = require('../middleware/notification');
 let admins = require('../config/administrators.json');
 let auth = require('../auth/middleware.js');
-// console.log('in the git check');
 // GET: /notifications/new
 router.get('/new', auth, (req, res, next)=> {
-  console.log('in the git check');
   res.render('notifications', {});
 });
 
@@ -14,18 +12,17 @@ router.get('/new', auth, (req, res, next)=> {
 
 // POST: /notifications
 router.post('/', function(req, res, next) {
-
-  if(!req.body.message){
+  if (!req.body.message || !req.body.to){
     // throw new Error;
     res.redirect(302, '/error');
   }
-  else{
+  else {
     let message = req.body.message;
+    let to = req.body.to;
   
-    admins.forEach(function(admin) {
-      let to = admin.phoneNumber;
-      notification.sendSms(to, message);
-    });
+    console.log("here")
+    notification.sendSms(to, message);
+  
     res.redirect(302, '/notifications/new');
   }
 
@@ -33,7 +30,6 @@ router.post('/', function(req, res, next) {
 });
 
 router.get('/error', function(req, res, next) {
-  console.log('in the error controller');
   res.redirect(302, '/notifications/error');
 });
 
