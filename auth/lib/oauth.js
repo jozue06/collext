@@ -1,7 +1,7 @@
 'use strict';
 
-let superagent = require('superagent');
-let User = require('../model');
+import { post, get } from 'superagent';
+import { createFromOAuth } from '../model';
 
 const authorize = (req) => {
 
@@ -9,7 +9,7 @@ const authorize = (req) => {
 
 
   // exchange the code or a token
-  return superagent.post('https://www.googleapis.com/oauth2/v4/token')
+  return post('https://www.googleapis.com/oauth2/v4/token')
     .type('form')
     .send({
       code: code,
@@ -24,7 +24,7 @@ const authorize = (req) => {
     })
   // use the token to get a user
     .then ( token => {
-      return superagent.get('https://www.googleapis.com/plus/v1/people/me/openIdConnect')
+      return get('https://www.googleapis.com/plus/v1/people/me/openIdConnect')
         .set('Authorization', `Bearer ${token}`)
         .then (response => {
           let user = response.body;
@@ -32,7 +32,7 @@ const authorize = (req) => {
         });
     })
     .then(googleUser => {
-      return User.createFromOAuth(googleUser);
+      return createFromOAuth(googleUser);
     })
     .then (user => {
       return user.generateToken();
@@ -42,4 +42,4 @@ const authorize = (req) => {
 
 
 
-module.exports = {authorize};
+export default {authorize};

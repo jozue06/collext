@@ -1,10 +1,10 @@
 'use strict';
 
-let mongoose = require('mongoose');
-let bcrypt = require('bcrypt');
-let jwt = require('jsonwebtoken');
+import { Schema, model } from 'mongoose';
+import { hash, compare } from 'bcryptjs';
+import { verify, sign } from 'jsonwebtoken';
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   email: {type: String, required: true},
@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
 
 // Before we save, hash the plain text password
 userSchema.pre('save', function(next) {
-  bcrypt.hash(this.password,10)
+  hash(this.password,10)
     .then(hashedPassword => {
       // Update the password for this instance to the hashed version
       this.password = hashedPassword;
@@ -58,7 +58,7 @@ userSchema.statics.authenticate = function(auth) {
 };
 
 userSchema.statics.authorize = function(token) {
-  let parsedToken = jwt.verify(token, process.env.SECRET);
+  let parsedToken = verify(token, process.env.SECRET);
   let query = {_id:parsedToken.id};
   return this.findOne(query)
     .then(user => {
@@ -70,13 +70,13 @@ userSchema.statics.authorize = function(token) {
 
 // Compare a plain text password against the hashed one we have saved
 userSchema.methods.comparePassword = function(password) {
-  return bcrypt.compare(password, this.password)
+  return compare(password, this.password)
     .then(valid => valid ? this : null);
 };
 
 // Generate a JWT from the user id and a secret
 userSchema.methods.generateToken = function() {
-  return jwt.sign( {id:this._id}, process.env.SECRET);
+  return sign( {id:this._id}, process.env.SECRET);
 };
 
-module.exports = mongoose.model('users', userSchema);
+export default model('users', userSchema);

@@ -1,8 +1,8 @@
 'use strict';
 
-let express = require('express');
-const authRouter = express.Router();
-let oauth = require('./lib/oauth.js');
+import Router from 'express';
+const authRouter = Router();
+import oauth from './lib/oauth.js';
 
 
 authRouter.get('/oauth', (req, res, next) => {
@@ -18,4 +18,4 @@ authRouter.get('/oauth', (req, res, next) => {
     .catch(next);
 });
 
-module.exports = authRouter;
+export default authRouter;

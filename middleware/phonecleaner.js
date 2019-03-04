@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function (phoneNumber) {
+export default function (phoneNumber) {
     if (!phoneNumber.includes("+")) {
         if (phoneNumber.length <= 10 && phoneNumber.charAt(0) != 1) {
             phoneNumber = `+1${phoneNumber}`;

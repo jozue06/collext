@@ -1,13 +1,7 @@
-let http = require('http');
-let config = require('./config');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './public/App';
+// import registerServiceWorker from './public/registerServiceWorker';
 
-// Create Express web app
-let app = require('./webapp');
-
-const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI);
-// Create an HTTP server and listen on the configured port
-let server = http.createServer(app);
-server.listen(config.port, function() {
-  console.log('Express server listening on :' + config.port);
-});
+ReactDOM.render(<App />, document.getElementById('root'));
+// registerServiceWorker();

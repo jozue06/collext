@@ -1,4 +1,5 @@
-let dotenv = require('dotenv');
+import dotenv from 'dotenv'
+
 let cfg = {};
 
 if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
@@ -18,7 +19,7 @@ cfg.secret = process.env.APP_SECRET || 'keyboard cat';
 // https://www.twilio.com/user/account
 //
 // A good practice is to store these string values as system environment
-// letiables, and load them from there as we are doing below. Alternately,
+// variables, and load them from there as we are doing below. Alternately,
 // you could hard code these values here as strings.
 cfg.accountSid = process.env.TWILIO_ACCOUNT_SID;
 cfg.authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -37,4 +38,4 @@ if (!isConfigured) {
 }
 
 // Export configuration object
-module.exports = cfg;
+export default cfg;

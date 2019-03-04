@@ -1,12 +1,12 @@
 'use strict';
 
-let User = require('./model.js');
+import { authorize as _authorize, authenticate as _authenticate } from './model.js';
 
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
 
   let authorize = (token) => {
     // Given a token, check with the User model to see if its valid
-    User.authorize(token)
+    _authorize(token)
       .then(user => {
         // We will always get back a "user" from mongo ... although it might be real and it might be null
         if(!user) { getAuth(); }
@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
 
   let authenticate = (auth) => {
     // Validate the user using the model's authenticate method
-    User.authenticate(auth)
+    _authenticate(auth)
     // We will always get back a "user" from mongo ... although it might be real and it might be null
       .then(user => {
         // If it's null, go to getAuth() ... which should return an error or a login page

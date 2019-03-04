@@ -1,12 +1,11 @@
-'use strict';
-let config = require('../config');
-let phonecleaner = require('./phonecleaner');
+import config from '../config';
+import phonecleaner from './phonecleaner';
+import client from 'twilio';
 
-module.exports.sendSms = function(to, message) {
+export function sendSms(to, message) {
   to = phonecleaner(to);
 
-  let client = require('twilio')(config.accountSid, config.authToken);
-  
+  client(config.accountSid, config.authToken);
   return client.api.messages
     .create({
       body: message,
@@ -17,4 +16,4 @@ module.exports.sendSms = function(to, message) {
       console.error('Could not notify administrator');
       console.error(err);
     });
-};
+}

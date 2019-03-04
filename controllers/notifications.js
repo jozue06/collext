@@ -1,7 +1,7 @@
 let express = require('express')
   , router = express.Router()
   , notification = require('../middleware/notification');
-let auth = require('../auth/middleware.js');
+let auth = require('../auth/middleware.js').default;
 // GET: /notifications/new
 router.get('/new', auth, (req, res, next)=> {
   res.render('notifications', {});

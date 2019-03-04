@@ -1,21 +1,17 @@
-'use strict';
 
-let path = require('path');
-let express = require('express');
-let bodyParser = require('body-parser');
-let session = require('express-session');
-let flash = require('connect-flash');
-// let morgan = require('morgan');
-// let csurf = require('csurf');
-let cookieParser = require('cookie-parser');
-let authRouter = require( './auth/router');
+import { join } from 'path';
+import express from 'express';
+import { urlencoded } from 'body-parser';
+import session from 'express-session';
+import flash from 'connect-flash';
 
-let config = require('./config');
+import cookieParser from 'cookie-parser';
+import authRouter from './auth/router';
 
+import config from './config';
 
-let routes = require('./controllers/index');
-let notifications = require('./controllers/notifications');
-
+import routes from './controllers/index';
+import notifications from './controllers/notifications';
 
 
 // Create Express web app
@@ -27,15 +23,14 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 // Serve static assets
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', path.join(__dirname, './public/views'));
-app.set('view engine', 'pug');
-
+app.use(express.static(join(__dirname, 'public')));
+app.set('views', join(__dirname, './public/views'));
+// app.set('view engine', 'pug');
 
 // Parse incoming form-encoded HTTP bodies
 app.use(cookieParser());
 
-app.use(bodyParser.urlencoded({
+app.use(urlencoded({
   extended: true,
 }));
 
@@ -62,7 +57,7 @@ app.use(flash());
 
 app.use('/', routes);
 app.use('/notifications', notifications);
-app.use(authRouter );
+app.use(authRouter);
 
 
 // production error handler
@@ -75,4 +70,5 @@ app.use(authRouter );
 // });
 
 
-module.exports = app;
+
+export default app;
