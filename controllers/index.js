@@ -24,7 +24,7 @@ router.get('/redirect',  (req, res, next) => {
 
 
 router.get( "/", ( req, res ) => {
-  const jsx = ( <LogIn /> );
+  const jsx = ( <App /> );
   const reactDom = dom.renderToString( jsx );
 
   res.writeHead( 200, { "Content-Type": "text/html" } );
@@ -42,7 +42,6 @@ function htmlTemplate( reactDom ) {
       
       <body>
           <div id="app">${ reactDom }</div>
-          <script src="./app.bundle.js"></script>
       </body>
       </html>
   `;
