@@ -1,4 +1,4 @@
-import config from '../config';
+import config from '../notification_config';
 import phonecleaner from './phonecleaner';
 import client from 'twilio';
 

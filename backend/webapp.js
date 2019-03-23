@@ -1,18 +1,21 @@
 
+import http from 'http';
 import { join } from 'path';
 import express from 'express';
 import { urlencoded } from 'body-parser';
 import session from 'express-session';
 import flash from 'connect-flash';
-
+import path from 'path';
 import cookieParser from 'cookie-parser';
 import authRouter from './auth/router';
 
-import config from './config';
-
-import routes from './controllers/index';
+import routes from './controllers/notifications';
 import notifications from './controllers/notifications';
+import config from './notification_config';
+import webapp from './webapp';
 
+import { connect } from 'mongoose';
+connect(process.env.MONGODB_URI, {useNewUrlParser: true});
 
 // Create Express web app
 let app = express();
@@ -23,8 +26,8 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 // Serve static assets
-app.use(express.static(join(__dirname, 'public')));
-app.set('views', join(__dirname, './public/views'));
+// app.use(express.static(join(__dirname, 'public')));
+// app.set('views', join(__dirname, './public/views'));
 // app.set('view engine', 'pug');
 
 // Parse incoming form-encoded HTTP bodies
@@ -69,6 +72,30 @@ app.use(authRouter);
 //   });
 // });
 
+app.get('/', (req,res) => {
+  res.sendFile(path.resolve('../frontend', 'public', 'index.html'))
+
+})
 
 
-export default app;
+let server = false;
+
+module.exports = {
+  start: (port) => {
+    if(!server) {
+      server = app.listen(port, (err) => {
+        if(err) { throw err; }
+        console.log('Server running on', port);
+      });
+    }
+    else {
+      console.log('Server is already running');
+    }
+  },
+
+  stop: () => {
+    server.close( () => {
+      console.log('Server is now off');
+    });
+  },
+};
