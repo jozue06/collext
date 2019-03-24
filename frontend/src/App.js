@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
-import store from './reducers/store';
-import Dashboard from './components/Dashboard';
+import Notifications from './components/Notifications';
 import Landing from './components/Landing';
-import SignUp from './components/SignUp';
+// import SignUp from './components/SignUp';
 
 class App extends Component {
 	render() {
 		return (
 			<div className="COLLEXT">
-				<Provider store={store}>
-					<BrowserRouter>
+				<BrowserRouter>
 					<React.Fragment>
-							<Route exact path='/' component={Landing} />
-							<Route path='/dashboard' component={Dashboard}/>
-							<Route path='/signup' component={SignUp}/>
-							</React.Fragment>
-					</BrowserRouter>
-				</Provider>
+						<Route exact path='/' component={Landing} />
+						<Route path='/notifications' component={Notifications}/>
+						{/* <Route path='/signup' component={SignUp}/> */}
+					</React.Fragment>
+				</BrowserRouter>
 			</div>
 		);
 	}

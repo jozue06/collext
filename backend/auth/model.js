@@ -4,14 +4,14 @@ import { Schema, model } from 'mongoose';
 import { hash, compare } from 'bcryptjs';
 import { verify, sign } from 'jsonwebtoken';
 
-const userSchema = new Schema({
+const UserSchema = new Schema({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   email: {type: String, required: true},
 });
 
 // Before we save, hash the plain text password
-userSchema.pre('save', function(next) {
+UserSchema.pre('save', function(next) {
   hash(this.password,10)
     .then(hashedPassword => {
       // Update the password for this instance to the hashed version
@@ -23,7 +23,7 @@ userSchema.pre('save', function(next) {
     .catch( error => {throw error;} );
 });
 
-userSchema.statics.createFromOAuth = function(incoming) {
+UserSchema.statics.createFromOAuth = function(incoming) {
 
 
   if ( ! incoming || ! incoming.email ) {
@@ -50,14 +50,14 @@ userSchema.statics.createFromOAuth = function(incoming) {
 
 // If we got a user/password, compare them to the hashed password
 // return the user instance or an error
-userSchema.statics.authenticate = function(auth) {
+UserSchema.statics.authenticate = function(auth) {
   let query = {username:auth.username};
   return this.findOne(query)
     .then(user => user && user.comparePassword(auth.password))
     .catch(error => error);
 };
 
-userSchema.statics.authorize = function(token) {
+UserSchema.statics.authorize = function(token) {
   let parsedToken = verify(token, process.env.SECRET);
   let query = {_id:parsedToken.id};
   return this.findOne(query)
@@ -69,14 +69,14 @@ userSchema.statics.authorize = function(token) {
 };
 
 // Compare a plain text password against the hashed one we have saved
-userSchema.methods.comparePassword = function(password) {
+UserSchema.methods.comparePassword = function(password) {
   return compare(password, this.password)
     .then(valid => valid ? this : null);
 };
 
 // Generate a JWT from the user id and a secret
-userSchema.methods.generateToken = function() {
+UserSchema.methods.generateToken = function() {
   return sign( {id:this._id}, process.env.SECRET);
 };
 
-export default model('users', userSchema);
+export default model('users', UserSchema);

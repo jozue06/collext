@@ -1,6 +1,4 @@
-
-import http from 'http';
-import { join } from 'path';
+import cors from 'cors';
 import express from 'express';
 import { urlencoded } from 'body-parser';
 import session from 'express-session';
@@ -8,13 +6,12 @@ import flash from 'connect-flash';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import authRouter from './auth/router';
-
 import routes from './controllers/notifications';
 import notifications from './controllers/notifications';
 import config from './notification_config';
-import webapp from './webapp';
-
 import { connect } from 'mongoose';
+
+
 connect(process.env.MONGODB_URI, {useNewUrlParser: true});
 
 // Create Express web app
@@ -22,27 +19,28 @@ let app = express();
 
 // Use morgan for HTTP request logging in dev and prod
 if (process.env.NODE_ENV !== 'test') {
-  // app.use(morgan('combined'));
+	// app.use(morgan('combined'));
 }
 
-// Serve static assets
-// app.use(express.static(join(__dirname, 'public')));
-// app.set('views', join(__dirname, './public/views'));
-// app.set('view engine', 'pug');
+ 
+
+let corsOptions = {
+	origin: 'http://localhost:3000',
+}
+app.use(cors(corsOptions));
 
 // Parse incoming form-encoded HTTP bodies
 app.use(cookieParser());
 
 app.use(urlencoded({
-  extended: true,
+	extended: true,
 }));
-
 
 // Create and manage HTTP sessions for all requests
 app.use(session({
-  secret: config.secret,
-  resave: true,
-  saveUninitialized: true,
+	secret: config.secret,
+	resave: true,
+	saveUninitialized: true,
 }));
 
 // Use connect-flash to persist informational messages across redirects
@@ -73,29 +71,27 @@ app.use(authRouter);
 // });
 
 app.get('/', (req,res) => {
-  res.sendFile(path.resolve('../frontend', 'public', 'index.html'))
-
+	res.sendFile(path.resolve('../frontend', 'public', 'index.html'))
 })
-
 
 let server = false;
 
 module.exports = {
-  start: (port) => {
-    if(!server) {
-      server = app.listen(port, (err) => {
-        if(err) { throw err; }
-        console.log('Server running on', port);
-      });
-    }
-    else {
-      console.log('Server is already running');
-    }
-  },
+	start: (port) => {
+		if(!server) {
+			server = app.listen(port, (err) => {
+				if(err) { throw err; }
+				console.log('Server running on', port);
+			});
+		}
+		else {
+			console.log('Server is already running');
+		}
+	},
 
-  stop: () => {
-    server.close( () => {
-      console.log('Server is now off');
-    });
-  },
+	stop: () => {
+		server.close( () => {
+			console.log('Server is now off');
+		});
+	},
 };
