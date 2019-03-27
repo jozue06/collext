@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Notifications from './components/Notifications';
 import Landing from './components/Landing';
-// import SignUp from './components/SignUp';
 
 class App extends Component {
 	render() {
