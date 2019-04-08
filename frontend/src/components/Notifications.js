@@ -48,22 +48,22 @@ export default class NoteForm extends Component {
         */}
 
           <input
-            name="name"
+            name="phone"
             label="Title:"
-            value={this.state.name}
+            value={this.state.phone}
             onChange={this.changeHandler}
-            type="text"
-            placeholder="Title" />
+            type="phone"
+            placeholder="Phone" />
         <br />
           <input
             id="textarea"
-            label="Note:"
-            placeholder=""
-            multiline
             name="content"
+            label="SMS"
+            multiline
             value={this.state.content}
             onChange={this.changeHandler}
             type="text"
+            placeholder="SMS"
           />
           <br />
           {/* <S.Button id={this.props.id} >{this.props.buttonText}</S.Button> */}

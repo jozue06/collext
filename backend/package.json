@@ -48,6 +48,7 @@
 		"http-errors": "^1.6.3",
 		"jsonwebtoken": "latest",
 		"mongoose": "^5.4.16",
+		"nodemon": "^1.18.10",
 		"path": "^0.12.7",
 		"pug": "^2.0.3",
 		"react": "^16.8.3",
