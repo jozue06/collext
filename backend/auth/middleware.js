@@ -13,7 +13,7 @@ export default (req, res, next) => {
         // Given a real user that must mean that our token was good. Let the user through.
         // in larger systems, you might want to attach an ACL or permissions to the req.user object here.
         else {
-          req.token=token;
+          req.token = token;
           next();
         }
       })
@@ -58,7 +58,7 @@ export default (req, res, next) => {
     }
     if(cookie){
       authorize(cookie);
-      // authenticate(cookie);
+      authenticate(cookie);
     }
 
     else {

@@ -1,8 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
 import superagent from 'superagent';
-import {Router, Redirect} from 'react-router-dom';
-import Notifications from './Notifications';
+import { Redirect } from 'react-router-dom';
 
 
 
@@ -10,23 +9,25 @@ export default class LogIn extends Component {
 
 	state = {
 		logIn: false,
+		token: localStorage.getItem("token")
 	};
 
 	responseGoogle = (response) => {
 		let token = response.tokenObj.id_token;
-		
 		superagent.get(`http://localhost:3331/oauth`)
-		.query({ "code": token }).then(res => {
-			
-			if (res.status == 200) {
-				console.log("here", res.status)
-				this.redirectTo();
-	
-			}
-		}).catch(e => e);
+			.query({ "code": token })
+			.then(res => {
+				if (res.status == 200) {
+					this.login(res.body.token);
+				}
+			}).catch(e => e);
 	}
-	redirectTo = () => {
-		this.setState({ logIn: true });
+	login = (token) => {
+		this.setState({ 
+			logIn: true ,
+			token: token,
+		});
+		localStorage.setItem("token", token);
 	}
 	render(){
 		if (!this.state.logIn) {

@@ -1,80 +1,67 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-// import S from '../styles/styles.js'
-// import ToggleButtons from './Editor'
-// import TextField from '@material-ui/core/TextField';
+import S from './styles/styles.js'
+import superagent from 'superagent';
 
-export default class NoteForm extends Component {
+export default class Notifications extends Component {
+	
+	state = {
+		to: this.props.to || '',
+		message: this.props.message || '',
+		id: this.props.id,
+		timeStamp: new Date().valueOf(),
+		user: '',
+		logIn: localStorage.getItem("token") ? true : false
+	}
 
-  state = {
-    name: this.props.name || '',
-    content: this.props.content || '',
-    id: this.props.id,
-    timeStamp: new Date().valueOf(),
-    user: '',
-  }
+	submitHandler = (event) => {
+		event.preventDefault();
+		this.notify(this.state.to, this.state.message)
+		this.setState({ to: '', message: '', });
+	}
 
-  submitHandler = (event) => {
-    event.preventDefault();
-    this.props.onComplete(this.state);
-    this.setState({ name: '', content: '', });
-  }
-
-  showEditForm = () => {
-    this.setState({ editing: true })
-  }
+	showEditForm = () => {
+		this.setState({ editing: true })
+	}
 
 
-  changeHandler = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+	changeHandler = (event) => {
+		this.setState({
+			[event.target.name]: event.target.value
+		})
 
-  }
+	}
 
-  render() {
-    return (
+	notify(to,message) {
+		superagent.post('http://localhost:3331/notifications')
+		.send({to, message})
+		.type('json')
+		.then(res => {
+		})
+	}
 
-//       <S.Input>
-//   <ToggleButtons></ToggleButtons>
-        <form onSubmit={this.submitHandler}>
-          {/* <input name="name" value={this.state.name} onChange={this.changeHandler} type="text" placeholder="Note Name"/>
-        <br />
-        
-        <S.Editor name="content" value={this.state.content} onChange={this.changeHandler} type="text" placeholder="Note Content">
-        
-        </S.Editor>
-        <br />
-        */}
+	render() {
+		if (this.state.logIn == true) {
+		return (
+			<S.Input>
+				<form onSubmit={this.submitHandler}>
+					<input name="to" value={this.state.name} onChange={this.changeHandler} type="phone" placeholder="To:"/>
+				<br />
+					
+				<S.Editor 
+					name="message" 
+					value={this.state.content} 
+					onChange={this.changeHandler} 
+					type="text" 
+					placeholder="Message:">
+				</S.Editor>
+				<S.Button id={this.props.id} >{this.props.buttonText}</S.Button>
+				</form>
+			</S.Input>
 
-          <input
-            name="phone"
-            label="Title:"
-            value={this.state.phone}
-            onChange={this.changeHandler}
-            type="phone"
-            placeholder="Phone" />
-        <br />
-          <input
-            id="textarea"
-            name="content"
-            label="SMS"
-            multiline
-            value={this.state.content}
-            onChange={this.changeHandler}
-            type="text"
-            placeholder="SMS"
-          />
-          <br />
-          {/* <S.Button id={this.props.id} >{this.props.buttonText}</S.Button> */}
-        </form>
-    //   </S.Input>
-    );
-  }
+		);
+	}
+	else {
+		return ("sorry");
+	}
+	}
 }
-
-
-// NoteForm.propTypes = {
-//   onComplete: PropTypes.func.isRequired,
-//   buttonText: PropTypes.string.isRequired,
-// }

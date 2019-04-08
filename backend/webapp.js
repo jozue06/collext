@@ -1,6 +1,6 @@
 import cors from 'cors';
 import express from 'express';
-import { urlencoded } from 'body-parser';
+import bodyparser from 'body-parser';
 import session from 'express-session';
 import flash from 'connect-flash';
 import path from 'path';
@@ -32,10 +32,10 @@ app.use(cors(corsOptions));
 // Parse incoming form-encoded HTTP bodies
 app.use(cookieParser());
 
-app.use(urlencoded({
+app.use(bodyparser.urlencoded({
 	extended: true,
 }));
-
+app.use(bodyparser.json());
 // Create and manage HTTP sessions for all requests
 app.use(session({
 	secret: config.secret,
