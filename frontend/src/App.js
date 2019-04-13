@@ -11,7 +11,6 @@ class App extends Component {
 					<React.Fragment>
 						<Route exact path='/' component={Landing} />
 						<Route path='/notifications' component={Notifications}/>
-						{/* <Route path='/signup' component={SignUp}/> */}
 					</React.Fragment>
 				</BrowserRouter>
 			</div>
