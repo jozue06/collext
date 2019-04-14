@@ -6,10 +6,12 @@
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-google-login": "^5.0.2",
+    "react-notifications": "^1.4.3",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-spinners": "^0.4.5",
     "styled-components": "^3.3.3",
+    "styled-icons": "^7.9.0",
     "superagent": "^3.8.3",
     "uuid": "^3.3.2"
   },

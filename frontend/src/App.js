@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Notifications from './components/Notifications';
-import Landing from './components/Landing';
-
+import Notifications from './components/Notifications.js';
+import Landing from './components/Landing.js';
 class App extends Component {
 	render() {
 		return (

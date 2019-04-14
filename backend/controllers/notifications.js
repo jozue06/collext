@@ -11,17 +11,23 @@ router.get('/new', auth, (req, res, next) => {
 
 // POST: /notifications
 router.post('/', (req, res, next) => {
-	if (!req.body.message || !req.body.to) {
-		// throw new Error;
-		res.send('error');
-	} else {
-		let message = req.body.message;
-		let to = req.body.to;
 
-		notification.sendSms(to, message);
-		// res.redirect(302, '/notifications/new');
-	}
+	let message = req.body.message;
+	let to = req.body.to;
 
+	notification.sendSms(to, message).then((data) => {
+		console.log('here', data);
+		if (data.status != 200) {
+			throw new Error(data)
+		} else {
+			res.send(data);
+		}
+		
+	}).catch(err => {
+		
+		res.status(400).send({err})
+		
+	})
 
 });
 

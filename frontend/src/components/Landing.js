@@ -11,25 +11,27 @@ export default class LogIn extends Component {
 
 	state = {
 		logIn: false,
-		token: localStorage.getItem("token")
+		token: localStorage.getItem('token'),
+		user: ''
 	};
 
 	responseGoogle = (response) => {
 		let token = response.tokenObj.id_token;
 		superagent.get(`http://localhost:3331/oauth`)
-			.query({ "code": token })
+			.query({ 'code': token })
 			.then(res => {
 				if (res.status == 200) {
-					this.login(res.body.token);
+					this.login(res.body.token, res.body.user);
 				}
 			}).catch(e => e);
 	}
-	login = (token) => {
+	login = (token, user) => {
 		this.setState({ 
 			logIn: true ,
 			token: token,
+			user: user,
 		});
-		localStorage.setItem("token", token);
+		localStorage.setItem('token', token);
 	}
 	render(){
 		if (!this.state.logIn) {
@@ -39,19 +41,19 @@ export default class LogIn extends Component {
 						C O L L E X T | B E T A
 					</S.Title>
 						<GoogleLogin 
-							clientId="910868958603-nq90rpf6943b5s04jaggao8brvn3g5m3.apps.googleusercontent.com"
-							buttonText="Login"
+							clientId='910868958603-nq90rpf6943b5s04jaggao8brvn3g5m3.apps.googleusercontent.com'
+							buttonText='Login'
 							onSuccess={this.responseGoogle}
 							onFailure={this.responseGoogle}>
 						</GoogleLogin>
-						<Footer />
+					<Footer />
 				</S.Wrapper>
 					
 				
 			)
 		}
 		if (this.state.logIn) {
-			return <Redirect to="/notifications"/>
+			return <Redirect to='/notifications' user={this.state.user}/>
 			}
 	}
 }

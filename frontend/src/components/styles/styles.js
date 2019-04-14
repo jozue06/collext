@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {Heart} from 'styled-icons/fa-solid'
 
 const Title = styled.h1`
 	font-size: 2em;
@@ -9,23 +10,53 @@ const Title = styled.h1`
 `;
 
 const Wrapper = styled.section`
-	padding: 4em;
+	margin-top: 0;
+	padding-left: 4em;
+	padding-right: 4em;
+	padding-bottom: 4em;
 	text-align: center;
 	background: black;
-
+	animation: 3s ease-out 0s 1 animationSlide;
+	@keyframes animationSlide {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+}
 `;
 
-const Input = styled.div`
+const InputWrapper = styled.form`
 	font-size: 1em;
 	text-align: center;
 	color: white;
+	display: flex;
+	flex-flow: column wrap;
+	align-items: center;
 `;
 
-
-const Editor = styled.textarea`
+const Editor = styled.input`
 	width: 30%;
 	height: 5em;
 	text-align: center;
+	border-radius: 5px;
+`;
+
+const Alert = styled.section`
+	background-color:  #4295f4;
+	border-left: 8px solid darken(#4295f4, 15%);
+	border-radius: 5px;
+	margin-bottom: 1em;
+	animation: 3s ease-out 0s 1 animationSlide2;
+	@keyframes animationSlide2 {
+		0% {
+			opacity: 0;
+		}
+		100% {
+			opacity: 1;
+		}
+	}
 `;
 
 const Text = styled.pre`
@@ -33,7 +64,7 @@ const Text = styled.pre`
 	text-align: center;
 	color: white;
 	padding: 10%;
-	
+
 	border-color:papayawhip;
 	border: solid;
 	border-width: .01em;
@@ -46,16 +77,15 @@ const Link = styled.a`
 
 const Button = styled.button`
 	/* Adapt the colors based on primary prop */
-	background: ${(props) => props.primary ? 'palevioletred' : 'white'};
-	color: ${(props) => props.primary ? 'white' : 'palevioletred'};
-
+	background: #4295f4;
+	color: white;
 	font-size: 1em;
 	margin: 0.2em;
 	padding: 0.25em 0.25em;
-	border: 1px solid palevioletred;
-	border-radius: 3px;
+	border-radius: 2px;
+	border-color: #4295f4;
 	text-align: center;
-	list-style-type: none;
+	/* list-style-type: none; */
 `;
 
 const List = styled.li`
@@ -77,23 +107,39 @@ const Tiny = styled.p`
 	font-style: italic;
 `;
 
-const Foot = styled.h1`
+const Foot = styled.footer`
 	background: black;
 	font-size: 0.5em;
 	text-align: center;
 	color: white;
 	margin-top: 1em;
+	margin-bottom: 1em;
+	position:absolute;
+	left:0;
+	bottom:0;
+	right:0;
+`;
+const RedHeart = styled(Heart)`
+	color: red;
+`
+const PhoneInput = styled.input`
+	border-radius: 1px;
+	margin-bottom:1em;
+	text-align: center;
 `;
 
 export default {
 	Button,
 	Title,
 	Wrapper,
+	Alert,
+	PhoneInput,
 	Text,
 	Link,
-	Input,
+	InputWrapper,
 	Editor,
 	List,
 	Tiny,
-	Foot
+	Foot,
+	RedHeart
 };
