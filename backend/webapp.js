@@ -10,7 +10,7 @@ import routes from './controllers/notifications';
 import notifications from './controllers/notifications';
 import config from './notification_config';
 import { connect } from 'mongoose';
-
+import stripe from './middleware/stripe.js';
 
 connect(process.env.MONGODB_URI, {useNewUrlParser: true});
 
@@ -46,29 +46,10 @@ app.use(session({
 // Use connect-flash to persist informational messages across redirects
 app.use(flash());
 
-
-// Add CSRF protection for web routes
-
-// app.use(csurf());
-// app.use(function(request, response, next) {
-//   response.locals.csrftoken = request.csrfToken();
-//   next();
-// });
-
-
 app.use('/', routes);
 app.use('/notifications', notifications);
 app.use(authRouter);
-
-
-// production error handler
-// app.use(function(err, req, res, next) {
-//   res.status(err.status || 500);
-//   res.render('error', {
-//     message: err.message,
-//     error: {},
-//   });
-// });
+app.use('/stripe', stripe);
 
 app.get('/', (req,res) => {
 	res.sendFile(path.resolve('../frontend', 'public', 'index.html'))

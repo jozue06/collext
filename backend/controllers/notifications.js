@@ -4,6 +4,7 @@ let express = require('express'),
 let auth = require('../auth/middleware.js').default;
 let PaymentCheck = require('../auth/paymentCheck.js')
 
+
 // POST: /notifications
 router.post('/', auth, (req, res, next) => {
 	let message = req.body.message;
@@ -22,6 +23,7 @@ router.post('/', auth, (req, res, next) => {
 		})
 	}
 });
+
 
 router.get('/error', function (req, res, next) {
 	res.redirect(302, '/notifications/error');

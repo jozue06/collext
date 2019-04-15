@@ -4,6 +4,7 @@ import S from './styles/styles.js'
 import superagent from 'superagent';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import Header from './Header.js'
+import StripeComponent from './StripeComponent.js'
 
 export default class Notifications extends Component {
 	
@@ -88,6 +89,7 @@ export default class Notifications extends Component {
 				
 					<S.Button type='submit'>Message</S.Button>
 					</S.InputWrapper>
+					<StripeComponent />
 				</S.Wrapper>
 
 			);
