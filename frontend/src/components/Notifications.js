@@ -9,22 +9,21 @@ export default class Notifications extends Component {
 	
 	constructor(props) {
 		super(props);
-	
+		
 		this.state = {
 			to: this.props.to || '',
 			message: this.props.message || '',
 			id: this.props.id,
 			timeStamp: new Date().valueOf(),
-			user: this.props.user,
+			user: this.props.location.state.user || '',
 			logIn: localStorage.getItem('token') ? true : false
 		};
-	
 		this.changeHandler = this.changeHandler.bind(this);
 		this.submitHandler = this.submitHandler.bind(this);
 		
 	};
 
-	createNotification = (type) => {		
+	createNotification = (type) => {
 		switch (type) {
 			case 'info':
 				NotificationManager.info('Info');
@@ -44,7 +43,7 @@ export default class Notifications extends Component {
 
 	submitHandler(event) {
 		event.preventDefault();
-		this.notify(this.state.to, this.state.message, this.state.user);
+		this.notify(this.state.to, this.state.message, this.state.user, localStorage.getItem("token"));
 	};
 
 	changeHandler(event) {
@@ -54,9 +53,9 @@ export default class Notifications extends Component {
 
 	};
 
-	notify(to, message, user) {
+	notify(to, message, user, token) {
 		superagent.post('http://localhost:3331/notifications')
-			.send({to, message, user})
+			.send({to, message, user, token})
 			.type('json')
 			.then(res => {
 				this.setState({to: '', message: ''});

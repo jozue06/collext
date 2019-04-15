@@ -53,7 +53,7 @@ export default class LogIn extends Component {
 			)
 		}
 		if (this.state.logIn) {
-			return <Redirect to='/notifications' user={this.state.user}/>
+			return <Redirect to={{pathname:'/notifications', state: {user: this.state.user}}}/>
 			}
 	}
 }

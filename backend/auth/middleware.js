@@ -1,74 +1,51 @@
 'use strict';
-
-import { authorize as _authorize, authenticate as _authenticate } from './model.js';
+import User from './model.js';
 
 export default (req, res, next) => {
+	let authorize = (token) => {
+		
+		User.authorize(token)
+			.then(user => {
+				if(!user) { getAuth(); }
+				else {
+					req.body.token = token;
+					next();
+				}
+			})
+			.catch(next);
+		};
+		
+		let authenticate = (auth) => {
+			
+			User.authenticate(auth)
+			.then(user => {
+				
+				if (!user) { getAuth(); }
+				else {
+					req.body.token = user.generateToken();
+					next();
+				}
+			})
+			.catch(next);
+	};
 
-  let authorize = (token) => {
-    // Given a token, check with the User model to see if its valid
-    _authorize(token)
-      .then(user => {
-        // We will always get back a "user" from mongo ... although it might be real and it might be null
-        if(!user) { getAuth(); }
-        // Given a real user that must mean that our token was good. Let the user through.
-        // in larger systems, you might want to attach an ACL or permissions to the req.user object here.
-        else {
-          req.token = token;
-          next();
-        }
-      })
-      .catch(next);
-  };
+	let getAuth = () => {
+		next({status:401,statusMessage:'Unauthorized',message:'Invalid User ID/Password'});
+	};
+	
+	try {
+		let token = req.body.token;
+		if (!token){
+			// authenticate(token);
+		}
+		if (token){
+			authorize(token);
+		}
+		else {
+			getAuth();
+		}
 
-  let authenticate = (auth) => {
-    // Validate the user using the model's authenticate method
-    _authenticate(auth)
-    // We will always get back a "user" from mongo ... although it might be real and it might be null
-      .then(user => {
-        // If it's null, go to getAuth() ... which should return an error or a login page
-        if (!user) { getAuth(); }
-        // We must have a good user.  Generate a token and jack that onto the req object and move on
-        // we could alternatively put the whole user instance on req.user if there's need for it later?
-        else {
-          req.token = user.generateToken();
-          next();
-        }
-      })
-    // Send any errors to next() which will invoke the error handling middleware
-      .catch(next);
-
-  };
-
-  // If we're not authenticated either show an error or pop a window
-  let getAuth = () => {
-    // res.set({
-    //   'WWW-Authenticate': 'Basic realm="Super Secret Area"'
-    // }).send(401);
-
-    // Send back a JSON formatted error object through our middleware
-    next({status:401,statusMessage:'Unauthorized',message:'Invalid User ID/Password'});
-  };
-
-  // Try to authenticate -- parse out the headers and do some work!
-  try {
-    let cookie = req.cookies.auth;
-
-    if(!cookie){
-      
-    }
-    if(cookie){
-      authorize(cookie);
-      authenticate(cookie);
-    }
-
-    else {
-      getAuth();
-
-    }
-    
-
-  } catch(e) {
-    next(e);
-  }
-
+	} catch(e) {
+		next(e);
+	}
 };
