@@ -5,7 +5,7 @@ let config = require('./config');
 let app = require('./webapp');
 
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGO_DB_URI);
 // Create an HTTP server and listen on the configured port
 let server = http.createServer(app);
 server.listen(config.port, function() {
