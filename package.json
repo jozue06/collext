@@ -45,7 +45,7 @@
     "http-errors": "^1.6.3",
     "jsonwebtoken": "latest",
     "mongoose": "^5.4.16",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "sanitize-html": "^1.10.0",
     "superagent": "^3.8.3",
     "twilio": "^3.17.5",
