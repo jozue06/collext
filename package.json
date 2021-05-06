@@ -46,7 +46,7 @@
     "jsonwebtoken": "latest",
     "mongoose": "^5.4.16",
     "pug": "^2.0.3",
-    "sanitize-html": "^1.10.0",
+    "sanitize-html": "^2.3.2",
     "superagent": "^3.8.3",
     "twilio": "^3.17.5",
     "underscore": "^1.8.3"
